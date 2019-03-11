@@ -19,7 +19,14 @@ lv_null = 'null'
 
 
 #############################################################################
-#
+#   The function returns the text based on the text ID
+#   Input:  Text ID.
+#   Output: Text element.
+#   If text ID is not found, because there can be human error:
+#       return null.
+#############################################################################
+#   Date:               Change by:          Status:         Tracking code:
+#   11.03.2019          Anirban Saha        Sign off.       N.A.
 #############################################################################
 
 
@@ -30,24 +37,39 @@ def return_text(id):
         if t_id == id:
             return row.split(g_.gv_comma)[1]
 
+    return g_.gv_null
+
 
 #############################################################################
-##
+#   Sets the language of communication.
+#   Input: Language
+#   Output: Setting the Global Language variable.
+#   Note: Ideally it should come from user's details.
+#   Example: when a person comes from Facebook, we get his Language details.
+#############################################################################
+#   Date:               Change by:          Status:         Tracking code:
+#   11.03.2019          Anirban             Sign off        N.A.
 #############################################################################
 
 
 def set_g_language(input):
     g_.gv_language = input.upper()
-    if g_.gv_language == g_.gv_english or g_.gv_language == 'english':
+    if g_.gv_language == g_.gv_english or g_.gv_language == 'ENGLISH':
         return g_.gv_english
-    elif g_.gv_language == g_.gv_german or g_.gv_language == 'german' or g_.gv_language == 'deutsch':
+    elif g_.gv_language == g_.gv_german or g_.gv_language == 'GERMAN' or g_.gv_language == 'DEUTSCH':
         return g_.gv_german
     else:
         return g_.gv_english
 
 
 #############################################################################
-##
+#   Gets Text elements from text.csv / Text table.
+#   Input: Language
+#   Output: A table containing all text elements of that language.
+#           Sets the global value for "yes" and "no" based on the language.
+#############################################################################
+#   Date:               Change by:          Status:         Tracking code:
+#   11.03.2019          Anirban             Sign off        N.A.
 #############################################################################
 
 
@@ -58,16 +80,17 @@ def get_text_elements(gv_language):
     gl_texts_dump = db_.read_file(g_.gc_folder_path + g_.gv_text_elements, g_.gc_newline)  # DB
     gl_texts = []
 
-    for text_element in gl_texts_dump:
-        elements = text_element.split(g_.gv_comma)
-        if elements[1] == gv_language:
-            if elements[2] == g_.gv_yes_en:
-                g_.gv_yes = elements[3]
-            if elements[2] == g_.gc_no_en:
-                g_.gv_no = elements[3]
-            gl_texts.append(elements[2] + g_.gv_comma + elements[3])
-            elements.clear()
-    gl_texts.sort()
+    if gl_texts_dump != g_.gv_null:
+        for text_element in gl_texts_dump:
+            elements = text_element.split(g_.gv_comma)
+            if elements[1] == gv_language:
+                if elements[2] == g_.gv_yes_en:
+                    g_.gv_yes = elements[3]
+                if elements[2] == g_.gc_no_en:
+                    g_.gv_no = elements[3]
+                gl_texts.append(elements[2] + g_.gv_comma + elements[3])
+                elements.clear()
+        #gl_texts.sort()    #- is sorting required?
     return gl_texts
 
 
