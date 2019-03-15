@@ -53,10 +53,10 @@ def return_text(id):
 
 
 def set_g_language(input):
-    g_.gv_language = input.upper()
-    if g_.gv_language == g_.gv_english or g_.gv_language == 'ENGLISH':
+    g_.gv_language = input.lower()
+    if g_.gv_language == g_.gv_english or g_.gv_language == 'english':
         return g_.gv_english
-    elif g_.gv_language == g_.gv_german or g_.gv_language == 'GERMAN' or g_.gv_language == 'DEUTSCH':
+    elif g_.gv_language == g_.gv_german or g_.gv_language == 'german' or g_.gv_language == 'deutsch':
         return g_.gv_german
     else:
         return g_.gv_english
@@ -125,11 +125,12 @@ def chat(queries, username):
 
         if user_exist == 0:
             ui_.sys_response(12)  # User Exists
+            g_.gv_username = username
 
-            consent = ui_.user_input(14)
-            if consent == g_.gv_yes:
-                sim_user = fin_sim_user(username)
-                ui_.sys_com_response(15, sim_user)
+            #consent = ui_.user_input(14)
+            #if consent == g_.gv_yes:
+            #    sim_user = fin_sim_user(username)
+            #    ui_.sys_com_response(15, sim_user)
             chat(queries, username)
         else:  # User Does not exist.
             consent = ui_.user_input(6)  # Do you want to create now?
@@ -145,9 +146,6 @@ def chat(queries, username):
         if len(wordcount_query) > 0:
             # a_query = basic_operations_on_query(a_query)
             label = get_label(a_query)
-
-            if label == 'similarity':  # Delete
-                ui_.sys_com_response(15, fin_sim_user(username))
 
             response = get_response(label)
             ui_.sys_long_response(response)
@@ -282,6 +280,14 @@ def make_profile(matr):
 
 
 def get_response(label):
+    #Dummy.
+    if label == 'mentors':
+        label = 'The mentors should be able to guide you with this query. Click on the link below to get the details of the mentors.'
+    elif label == 'modulehandbook':
+        label = 'You will get your answer in the Module hand book. Here is the link'
+    elif label == 'similarity':
+        person = fin_sim_user(g_.gv_username)
+        label = 'The person who is most similar to you, based on your profile is ' + person
     return label
 
 

@@ -7,6 +7,7 @@
 
 import g_
 import f_
+from googletrans import Translator  # change_01
 
 
 #############################################################################
@@ -35,9 +36,9 @@ def user_input(txt_id):
 
 
 #############################################################################
-##  Gives the systems response to the user based on a text ID.
-##  Input:  text ID
-##  Output: Shows to the user, the message.
+#  Gives the systems response to the user based on a text ID.
+#  Input:  text ID
+#  Output: Shows to the user, the message.
 #############################################################################
 
 
@@ -56,10 +57,18 @@ def sys_response(txt_id):
 
 
 #############################################################################
-##  Gives the systems long response to the user.
-##  It is not based on the Text ID.
-##  Input:  Message text
-##  Output: Shows to the user the message.
+#  Gives the systems long response to the user.
+#  It is not based on the Text ID.
+#  Input:  Message text
+#  Output:
+#       If global language is English:
+#           Shows to the user the message.
+#       Else:
+#           translates the text and shows to the user.
+#############################################################################
+#   Date:               Change by:          Status:         Tracking code:
+#   11.03.2019          Anirban             Sign off        N.A.
+#   14.03.2019          Anirban             Sign off        #change_01
 #############################################################################
 
 
@@ -67,6 +76,12 @@ def sys_long_response(text):
     if text == g_.gv_null:
         sys_response(g_.gv_error_1)
         exit()
+# change_01: Begin of change.
+    if g_.gv_language != g_.gv_english:
+        translator = Translator()
+        text = translator.translate(text, dest=g_.gv_language)
+        text = text.text
+# change_01: End of change.
     print(text)
 
 
