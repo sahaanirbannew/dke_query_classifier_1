@@ -3,6 +3,7 @@
 import datetime
 import glob
 import re
+import random
 
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
@@ -29,6 +30,29 @@ lv_null = 'null'
 #   11.03.2019          Anirban Saha        Sign off.       N.A.
 #############################################################################
 
+def is_greetings(text):
+    greetings = ["hi", "hello", "halo", "good morning", "good evening", "good afternoon", "hallo"]
+    text = str(text).lower()
+    if text in greetings:
+        return 1
+    else:
+        return 0
+
+
+def send_greetings():
+    random_integer = random.randint(1, 4)
+    random_greetings = ["hi", "hello", "Howdy!", "What's up?"]
+    if 1 <= random_integer <= 4:
+        ui_.sys_long_response(random_greetings[random_integer])
+    else:
+        str_time = datetime.datetime.now().time()
+        hour = int(str(str_time).split(g_.gc_colon)[0])
+        if 0 <= hour < 12:
+            ui_.sys_long_response('good morning')
+        elif 12 <= hour <= 16:
+            ui_.sys_long_response('good afternoon')
+        else:
+            ui_.sys_long_response('good evening')
 
 def return_text(id):
     for row in g_.gl_texts:

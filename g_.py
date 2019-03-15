@@ -33,6 +33,7 @@ gv_f_queries = 'queries.csv'
 gv_space = ' '
 gv_private = 'basic_operations_on_query'
 gv_username = gv_null
+gc_colon = ':'
 
 gl_texts = []
 gv_language = ui_.user_input(5)
